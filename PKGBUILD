@@ -20,7 +20,7 @@ pkgver() {
     cd ${srcdir}
     chmod +x ${srcdir}/${_pkgapp}.AppImage
     ${srcdir}/${_pkgapp}.AppImage --appimage-extract >/dev/null
-    cat ${srcdir}/squashfs-root/${_pkgapp}.desktop | grep 'X-AppImage-Version' | sed 's!^X-AppImage-Version=!!g'
+    echo $(cat ${srcdir}/squashfs-root/${_pkgapp}.desktop | grep 'X-AppImage-Version' | sed 's!^X-AppImage-Version=!!g')-${pkgrel}
 }
 
 package() {
