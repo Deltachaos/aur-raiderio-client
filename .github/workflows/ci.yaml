@@ -32,20 +32,24 @@ jobs:
         git config --global --add safe.directory $(pwd)
         git config --global user.email "mr@deltachaos.de"
         git config --global user.name "Maximilian Ruta"
-        git remote add aur ssh://aur@aur.archlinux.org/raiderio-client-appimage.git 
 
     - name: Create commit
       run: |
+        git clone ssh://aur@aur.archlinux.org/raiderio-client-appimage.git /aur
+        shopt -s extglob
+        cd "/aur"
+        rm -rf !( .git )
+        shopt -u extglob
+        find . -maxdepth 1 -type f -print0 | xargs -0 -I {} cp "{}" /aur
         if [ -n "$(git status --porcelain)" ]; then
           echo "Changes detected"
+          git add -u
           git add .
           git commit -m "Update from CI"
+          git push
         else
           echo "No changes detected"
           exit 0
         fi
-        
-    - name: Push changes
-      run: |
-        GIT_SSH_COMMAND="ssh -i ~/.ssh/aur -o StrictHostKeyChecking=accept-new" git push aur master
-        git push origin master
+      env:
+        GIT_SSH_COMMAND: "ssh -i ~/.ssh/aur -o StrictHostKeyChecking=accept-new"
