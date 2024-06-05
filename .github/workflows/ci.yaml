@@ -25,9 +25,9 @@ jobs:
       run: |
         version=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/RaiderIO/raiderio-client-builds/releases/latest | jq -r '.tag_name')
         source_x86_64=$(echo "https://github.com/RaiderIO/raiderio-client-builds/releases/download/${version}/RaiderIO_Installer_Linux_x86_64.AppImage")
-        source_hash_x86_64=$(curl "${source}" | sha512sum)
+        source_hash_x86_64=$(curl "${source_x86_64}" | sha512sum)
         source_arm64=$(echo "https://github.com/RaiderIO/raiderio-client-builds/releases/download/${version}/RaiderIO_Installer_Linux_arm64.AppImage")
-        source_hash_arm64=$(curl "${source}" | sha512sum)
+        source_hash_arm64=$(curl "${source_arm64}" | sha512sum)
         sed -i "s|{{__source_x86_64__}}|${source_x86_64}|g" PKGBUILD
         sed -i "s|{{__source_hash_x86_64__}}|${source_hash_x86_64}|g" PKGBUILD
         sed -i "s|{{__source_arm64__}}|${source_arm64}|g" PKGBUILD
