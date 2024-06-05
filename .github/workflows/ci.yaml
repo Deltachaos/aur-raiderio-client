@@ -35,12 +35,12 @@ jobs:
 
     - name: Create commit
       run: |
-        git clone ssh://aur@aur.archlinux.org/raiderio-client-appimage.git /aur
+        git clone ssh://aur@aur.archlinux.org/raiderio-client-appimage.git /tmp/aur
         shopt -s extglob
-        cd "/aur"
+        cd "/tmp/aur"
         rm -rf !( .git )
         shopt -u extglob
-        find . -maxdepth 1 -type f -print0 | xargs -0 -I {} cp "{}" /aur
+        find . -maxdepth 1 -type f -print0 | xargs -0 -I {} cp "{}" /tmp/aur
         if [ -n "$(git status --porcelain)" ]; then
           echo "Changes detected"
           git add -u
