@@ -36,7 +36,7 @@ package() {
     install -dm755 "${pkgdir}/usr/share/licenses/${_pkgapp}/"
 
     cp -r --no-preserve=mode,ownership "${srcdir}/squashfs-root/usr/share/icons/hicolor/scalable/${_pkgapp}.svg" "${pkgdir}/usr/share/icons/hicolor/scalable/apps/"
-    cp --no-preserve=mode,ownership "${srcdir}/squashfs-root/raiderio-client.desktop" "${pkgdir}/usr/share/applications/"
+    cp --no-preserve=mode,ownership "${srcdir}/squashfs-root/${_pkgapp}.desktop" "${pkgdir}/usr/share/applications/"
     for i in ${srcdir}/squashfs-root/LICENSE.*; do 
       cp --no-preserve=mode,ownership "${i}" "${pkgdir}/usr/share/licenses/${_pkgapp}"
     done
