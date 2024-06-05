@@ -1,7 +1,7 @@
 pkgbase = raiderio-client-appimage
 	pkgdesc = raider.io desktop client for Linux
 	pkgver = 4.1.1
-	pkgrel = 2
+	pkgrel = 3
 	url = https://raider.io/
 	arch = x86_64
 	license = custom
@@ -12,6 +12,6 @@ pkgbase = raiderio-client-appimage
 	source = raiderio-client.AppImage::https://raider.io/client/download/linux
 	source = start
 	sha512sums = SKIP
-	sha512sums = d81f917aba4da97441462abf6e9dcb0240a47038f69d5efd715a5f41f81e5930b155febaabd6b551f9183f37a00b75e47ff58e3cef8108fda2669898cf1abdd6
+	sha512sums = ee0cb07b4bf56ed43bf163f0141d5165889b051fe0aaf52f46789f67f6ab896f7d69c3527ab77bb1fd70e3c7c6a6611e691fd8ad91edd1db35a2252f10bef9a9
 
 pkgname = raiderio-client-appimage

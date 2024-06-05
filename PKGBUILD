@@ -3,7 +3,7 @@
 pkgname=raiderio-client-appimage
 _pkgapp=raiderio-client
 pkgver=4.1.1
-pkgrel=2
+pkgrel=3
 pkgdesc="raider.io desktop client for Linux"
 arch=('x86_64')
 depends=("fuse2")
@@ -14,7 +14,7 @@ license=('custom' 'MIT' 'custom:chromium-licenses')
 options=(!strip)
 # Skip checksum check for the RaiderIO binary, to avoid breakage on updates
 sha512sums=('SKIP'
-            'd81f917aba4da97441462abf6e9dcb0240a47038f69d5efd715a5f41f81e5930b155febaabd6b551f9183f37a00b75e47ff58e3cef8108fda2669898cf1abdd6')
+            'ee0cb07b4bf56ed43bf163f0141d5165889b051fe0aaf52f46789f67f6ab896f7d69c3527ab77bb1fd70e3c7c6a6611e691fd8ad91edd1db35a2252f10bef9a9')
 
 pkgver() {
     cd ${srcdir}
