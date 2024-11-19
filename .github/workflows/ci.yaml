@@ -33,6 +33,7 @@ jobs:
         source_arm64=$(echo "https://github.com/RaiderIO/raiderio-client-builds/releases/download/${version}/RaiderIO_Installer_Linux_arm64.AppImage")
         wget -O /tmp/source_arm64 "${source_arm64}"
         source_hash_arm64=$(sha512sum /tmp/source_arm64 | awk '{print $1}')
+        sed -i "s|{{__version__}}|${version}|g" PKGBUILD
         sed -i "s|{{__source_x86_64__}}|${source_x86_64}|g" PKGBUILD
         sed -i "s|{{__source_hash_x86_64__}}|${source_hash_x86_64}|g" PKGBUILD
         sed -i "s|{{__source_arm64__}}|${source_arm64}|g" PKGBUILD
