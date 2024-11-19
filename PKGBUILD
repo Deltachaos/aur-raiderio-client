@@ -8,8 +8,8 @@ pkgdesc="raider.io desktop client for Linux"
 arch=('x86_64' 'arm64')
 depends=("fuse2")
 url="https://raider.io/"
-source=("$_pkgapp-x86_64.AppImage::{{__source_x86_64__}}"
-        "$_pkgapp-arm64.AppImage::{{__source_arm64__}}"
+source=("$_pkgapp-x86_64-{{__version__}}.AppImage::{{__source_x86_64__}}"
+        "$_pkgapp-arm64-{{__version__}}.AppImage::{{__source_arm64__}}"
         'start')
 license=('custom' 'MIT' 'custom:chromium-licenses')
 options=(!strip)
@@ -20,18 +20,18 @@ sha512sums=('{{__source_hash_x86_64__}}'
 
 pkgver() {
     cd ${srcdir}
-    chmod +x ${srcdir}/${_pkgapp}-${CARCH}.AppImage
-    ${srcdir}/${_pkgapp}-${CARCH}.AppImage --appimage-extract >/dev/null
+    chmod +x ${srcdir}/${_pkgapp}-${CARCH}-{{__version__}}.AppImage
+    ${srcdir}/${_pkgapp}-${CARCH}-{{__version__}}.AppImage --appimage-extract >/dev/null
     cat ${srcdir}/squashfs-root/${_pkgapp}.desktop | grep 'X-AppImage-Version' | sed 's!^X-AppImage-Version=!!g'
 }
 
 package() {
     cd ${srcdir}
-    chmod +x ${srcdir}/${_pkgapp}-${CARCH}.AppImage
-    ./${_pkgapp}-${CARCH}.AppImage --appimage-extract >/dev/null
+    chmod +x ${srcdir}/${_pkgapp}-${CARCH}-{{__version__}}.AppImage
+    ./${_pkgapp}-${CARCH}-{{__version__}}.AppImage --appimage-extract >/dev/null
     sed -i 's/Exec=.*/Exec=\/usr\/bin\/'${_pkgapp}' %U/' squashfs-root/${_pkgapp}.desktop
 
-    install -Dm755 ${_pkgapp}-${CARCH}.AppImage "${pkgdir}/opt/${_pkgapp}/${_pkgapp}.AppImage"
+    install -Dm755 ${_pkgapp}-${CARCH}-{{__version__}}.AppImage "${pkgdir}/opt/${_pkgapp}/${_pkgapp}.AppImage"
     install -Dm755 "start" "${pkgdir}/usr/bin/${_pkgapp}"
     install -dm755 "${pkgdir}/usr/share/applications/"
     install -dm755 "${pkgdir}/usr/share/icons/hicolor/scalable/apps/"
