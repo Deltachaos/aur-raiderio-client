@@ -52,7 +52,7 @@ jobs:
 
     - name: Create commit
       run: |
-        git -c init.defaultbranch=master clone ssh://aur@aur.archlinux.org/raiderio-client-appimage.git /tmp/aur
+        git -c init.defaultbranch=master clone ssh://aur@aur.archlinux.org/raiderio-client.git /tmp/aur
         oldpwd=$(pwd)
         shopt -s extglob
         cd "/tmp/aur"
