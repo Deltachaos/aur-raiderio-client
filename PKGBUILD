@@ -1,6 +1,6 @@
 # Maintainer: Deltachaos <mr@deltachaos.de>
 
-pkgname=raiderio-client-appimage
+pkgname=raiderio-client
 _pkgapp=raiderio-client
 pkgver=0.0.0
 pkgrel=1
