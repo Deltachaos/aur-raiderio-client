@@ -71,4 +71,4 @@ jobs:
         fi
       env:
         GIT_SSH_COMMAND: "ssh -i ~/.ssh/aur -o StrictHostKeyChecking=accept-new"
-    - uses: gautamkrishnar/keepalive-workflow@v2
+    - uses: Entepotenz/keep-github-actions-alive-min-dependencies@v1
