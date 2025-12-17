@@ -4,8 +4,10 @@ on:
   push:
     branches:
       - master
-  schedule:
-    - cron: "45 8 * * *"
+  workflow_dispatch:
+    inputs:
+      reason:
+        required: false
 
 permissions:
   actions: write
