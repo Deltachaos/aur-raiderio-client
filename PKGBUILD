@@ -18,17 +18,56 @@ sha512sums=('{{__source_hash_x86_64__}}'
             '{{__source_hash_arm64__}}'
             'ee0cb07b4bf56ed43bf163f0141d5165889b051fe0aaf52f46789f67f6ab896f7d69c3527ab77bb1fd70e3c7c6a6611e691fd8ad91edd1db35a2252f10bef9a9')
 
+normalize_desktop() {
+    local desktop_files=()
+    local desktop_file
+    local target="${srcdir}/squashfs-root/${_pkgapp}.desktop"
+
+    mapfile -t desktop_files < <(
+        find "${srcdir}/squashfs-root" \
+            -maxdepth 1 \
+            -type f \
+            -name '*.desktop' \
+            -print
+    )
+
+    if (( ${#desktop_files[@]} == 0 )); then
+        echo "ERROR: No .desktop file found in AppImage" >&2
+        return 1
+    fi
+
+    if (( ${#desktop_files[@]} > 1 )); then
+        echo "ERROR: Multiple .desktop files found in AppImage:" >&2
+        printf '  %s\n' "${desktop_files[@]}" >&2
+        return 1
+    fi
+
+    desktop_file="${desktop_files[0]}"
+
+    if [[ "${desktop_file}" != "${target}" ]]; then
+        mv "${desktop_file}" "${target}"
+    fi
+}
+
 pkgver() {
     cd ${srcdir}
+    rm -rf "${srcdir}/squashfs-root"
     chmod +x ${srcdir}/${_pkgapp}-${CARCH}-{{__version__}}.AppImage
     ${srcdir}/${_pkgapp}-${CARCH}-{{__version__}}.AppImage --appimage-extract >/dev/null
+
+    normalize_desktop
+
     cat ${srcdir}/squashfs-root/${_pkgapp}.desktop | grep 'X-AppImage-Version' | sed 's!^X-AppImage-Version=!!g'
 }
 
 package() {
     cd ${srcdir}
+    rm -rf "${srcdir}/squashfs-root"
     chmod +x ${srcdir}/${_pkgapp}-${CARCH}-{{__version__}}.AppImage
     ./${_pkgapp}-${CARCH}-{{__version__}}.AppImage --appimage-extract >/dev/null
+
+    normalize_desktop
+
     sed -i 's/Exec=.*/Exec=\/usr\/bin\/'${_pkgapp}' %U/' squashfs-root/${_pkgapp}.desktop
 
     install -Dm755 ${_pkgapp}-${CARCH}-{{__version__}}.AppImage "${pkgdir}/opt/${_pkgapp}/${_pkgapp}.AppImage"
@@ -37,9 +76,9 @@ package() {
     install -dm755 "${pkgdir}/usr/share/icons/hicolor/scalable/apps/"
     install -dm755 "${pkgdir}/usr/share/licenses/${_pkgapp}/"
 
-    cp -r --no-preserve=mode,ownership "${srcdir}/squashfs-root/usr/share/icons/hicolor/scalable/${_pkgapp}.svg" "${pkgdir}/usr/share/icons/hicolor/scalable/apps/"
+    cp -r --no-preserve=mode,ownership "${srcdir}/squashfs-root/usr/share/icons/hicolor/scalable/apps/${_pkgapp}.svg" "${pkgdir}/usr/share/icons/hicolor/scalable/apps/"
     cp --no-preserve=mode,ownership "${srcdir}/squashfs-root/${_pkgapp}.desktop" "${pkgdir}/usr/share/applications/"
-    for i in ${srcdir}/squashfs-root/LICENSE.*; do 
+    for i in ${srcdir}/squashfs-root/LICENSE.*; do
       cp --no-preserve=mode,ownership "${i}" "${pkgdir}/usr/share/licenses/${_pkgapp}"
     done
 }
